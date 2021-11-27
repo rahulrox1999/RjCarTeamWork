@@ -820,8 +820,8 @@ public class VehicleControl : MonoBehaviour
                     for (int i = 0; i < carSetting.hitGround.Length; i++)
                     {
 
-                        if (hit.collider.CompareTag(carSetting.hitGround[i].tag))
-                        {
+                       // if (hit.collider.CompareTag(carSetting.hitGround[i].tag))
+                        //{
                             WGrounded = carSetting.hitGround[i].grounded;
 
                             if ((brake || Mathf.Abs(hit.sidewaysSlip) > 0.5f) && speed > 1)
@@ -836,7 +836,7 @@ public class VehicleControl : MonoBehaviour
 
                            // Particle[currentWheel].GetComponent<ParticleSystem>().startColor = carSetting.hitGround[i].brakeColor;
 
-                        }
+                        //}
 
 
                     }
