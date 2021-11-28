@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class Gun_Firing : MonoBehaviour
 {
+
+    PhotonView view;
 
     public float damage = 10f;
     public float Range = 100f;
@@ -34,104 +37,110 @@ public class Gun_Firing : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
+        view = GetComponent<PhotonView>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Fire1") && Time.time >= nextTimeToFire)
+        if (view.IsMine)
         {
-            nextTimeToFire = Time.time + 1f / fireRate;
-           
-            Shoot();
-        }
-
-         if(Input.GetButton("Fire2") && Time.time >= nextTimeToFire)
-        {
-            nextTimeToFire = Time.time + 1f / fireRate;
-            Shoot2();
-        }
-
-        void Shoot()
-        {
-            MuzzleFlash.Play();
-            Fire.Play();
-            RaycastHit Hit;
-
-            if(Physics.Raycast(GunTriggerPoint.transform.position, GunTriggerPoint.transform.forward, out Hit,Range))
+            if (Input.GetButtonDown("Fire1") && Time.time >= nextTimeToFire)
             {
-                Debug.Log(Hit.transform.name);
+                nextTimeToFire = Time.time + 1f / fireRate;
 
-                TakeDamege target =  Hit.transform.GetComponent<TakeDamege>();
-
-                if(target != null)
-                {
-                    target.Takedamege(damage);
-                }
-
-                if(Hit.rigidbody != null)
-                {
-                    Hit.rigidbody.AddForce(-Hit.normal * impcatForceGun1);
-                }
-
-                Car.AddForce(0f, 0f, -BackForce);
-
-               GameObject ImpactGameObject = Instantiate(ImpactEffect, Hit.point, Quaternion.LookRotation(Hit.normal));
-
-                Destroy(ImpactGameObject, 1.5f);
+                Shoot();
             }
 
-        }
-
-        void Shoot2()
-        {
-            MuzzleFlash2.Play();
-            MuzzleFlash3.Play();
-            Fire2.Play();
-            RaycastHit Hit;
-
-            if (Physics.Raycast(GunLeftTriggerPoint.transform.position, GunLeftTriggerPoint.transform.forward, out Hit, Range))
+            if (Input.GetButton("Fire2") && Time.time >= nextTimeToFire)
             {
-                Debug.Log(Hit.transform.name);
-
-                TakeDamege target = Hit.transform.GetComponent<TakeDamege>();
-
-                if (target != null)
-                {
-                    target.Takedamege(5f);
-                }
-
-                if (Hit.rigidbody != null)
-                {
-                    Hit.rigidbody.AddForce(-Hit.normal * impcatForceGun2);
-                }
-
-                GameObject ImpactGameObject = Instantiate(ImpactEffect, Hit.point, Quaternion.LookRotation(Hit.normal));
-
-                Destroy(ImpactGameObject, 1.5f);
+                nextTimeToFire = Time.time + 1f / fireRate;
+                Shoot2();
             }
 
-            if (Physics.Raycast(GunRightTriggerPoint.transform.position, GunRightTriggerPoint.transform.forward, out Hit, Range))
+            void Shoot()
             {
-                Debug.Log(Hit.transform.name);
+                MuzzleFlash.Play();
+                Fire.Play();
+                RaycastHit Hit;
 
-                TakeDamege target = Hit.transform.GetComponent<TakeDamege>();
-
-                if (target != null)
+                if (Physics.Raycast(GunTriggerPoint.transform.position, GunTriggerPoint.transform.forward, out Hit, Range))
                 {
-                    target.Takedamege(5f);
-                }
-                if (Hit.rigidbody != null)
-                {
-                    Hit.rigidbody.AddForce(-Hit.normal * impcatForceGun2);
+                    Debug.Log(Hit.transform.name);
+
+                    TakeDamege target = Hit.transform.GetComponent<TakeDamege>();
+
+                    if (target != null)
+                    {
+                        target.Takedamege(damage);
+                    }
+
+                    if (Hit.rigidbody != null)
+                    {
+                        Hit.rigidbody.AddForce(-Hit.normal * impcatForceGun1);
+                    }
+
+                    Car.AddForce(0f, 0f, -BackForce);
+
+                    GameObject ImpactGameObject = PhotonNetwork.Instantiate(ImpactEffect.name, Hit.point, Quaternion.LookRotation(Hit.normal));
+
+                    Destroy(ImpactGameObject, 1.5f);
                 }
 
-                GameObject ImpactGameObject = Instantiate(ImpactEffect, Hit.point, Quaternion.LookRotation(Hit.normal));
-
-                Destroy(ImpactGameObject, 1.5f);
             }
 
+            void Shoot2()
+            {
+                MuzzleFlash2.Play();
+                MuzzleFlash3.Play();
+                Fire2.Play();
+                RaycastHit Hit;
+
+                if (Physics.Raycast(GunLeftTriggerPoint.transform.position, GunLeftTriggerPoint.transform.forward, out Hit, Range))
+                {
+                    Debug.Log(Hit.transform.name);
+
+                    TakeDamege target = Hit.transform.GetComponent<TakeDamege>();
+
+                    if (target != null)
+                    {
+                        target.Takedamege(5f);
+                    }
+
+                    if (Hit.rigidbody != null)
+                    {
+                        Hit.rigidbody.AddForce(-Hit.normal * impcatForceGun2);
+                    }
+
+                    GameObject ImpactGameObject = PhotonNetwork.Instantiate(ImpactEffect.name, Hit.point, Quaternion.LookRotation(Hit.normal));
+
+                    Destroy(ImpactGameObject, 1.5f);
+                }
+
+                if (Physics.Raycast(GunRightTriggerPoint.transform.position, GunRightTriggerPoint.transform.forward, out Hit, Range))
+                {
+                    Debug.Log(Hit.transform.name);
+
+                    TakeDamege target = Hit.transform.GetComponent<TakeDamege>();
+
+                    if (target != null)
+                    {
+                        target.Takedamege(5f);
+                    }
+                    if (Hit.rigidbody != null)
+                    {
+                        Hit.rigidbody.AddForce(-Hit.normal * impcatForceGun2);
+                    }
+
+                    GameObject ImpactGameObject = PhotonNetwork.Instantiate(ImpactEffect.name, Hit.point, Quaternion.LookRotation(Hit.normal));
+
+                    Destroy(ImpactGameObject, 1.5f);
+                }
+
+            }
         }
+       
     }
 }
