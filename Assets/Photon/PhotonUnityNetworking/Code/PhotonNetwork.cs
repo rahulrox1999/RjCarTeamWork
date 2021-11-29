@@ -1018,6 +1018,7 @@ namespace Photon.Pun
 
         private static int lastUsedViewSubId = 0;  // each player only needs to remember it's own (!) last used subId to speed up assignment
         private static int lastUsedViewSubIdStatic = 0;  // per room, the master is able to instantiate GOs. the subId for this must be unique too
+        public static bool isMine;
 
 
         /// <summary>
