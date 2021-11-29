@@ -19,12 +19,12 @@ public class MouseLook : MonoBehaviour
     void Update()
     {
         float mouseX = Input.GetAxis("Mouse X") * MouseSensi * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * MouseSensi * Time.deltaTime;
+        //float mouseY = Input.GetAxis("Mouse Y") * MouseSensi * Time.deltaTime;
 
         Tank.Rotate(Vector3.up * mouseX);
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
 
-        xRotation -= mouseY;
+       // xRotation -= mouseY;
        // xRotation = Mathf.Clamp
     }
 }
