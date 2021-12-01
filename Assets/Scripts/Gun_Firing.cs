@@ -50,23 +50,23 @@ public class Gun_Firing : MonoBehaviour
             if (Input.GetButtonDown("Fire1") && Time.time >= nextTimeToFire)
             {
                 nextTimeToFire = Time.time + 1f / fireRate;
-                MuzzleFlash.Play();
-                Fire.Play();
+               
                 Shoot();
             }
 
             if (Input.GetButton("Fire2") && Time.time >= nextTimeToFire)
             {
                 nextTimeToFire = Time.time + 1f / fireRate;
-                MuzzleFlash2.Play();
-                MuzzleFlash3.Play();
-                Fire2.Play();
+                
                 Shoot2();
             }
 
             void Shoot()
             {
-               
+
+                MuzzleFlash2.Play();
+                Fire.Play();
+
                 RaycastHit Hit;
 
                 if (Physics.Raycast(GunTriggerPoint.transform.position, GunTriggerPoint.transform.forward, out Hit, Range))
@@ -75,9 +75,10 @@ public class Gun_Firing : MonoBehaviour
 
                     TakeDamege target = Hit.transform.GetComponent<TakeDamege>();
 
+
                     if (target != null)
                     {
-                        target.Takedamege(damage);
+                        target.GetComponent<PhotonView>().RPC("Takedamege", RpcTarget.MasterClient, damage);
                     }
 
                     if (Hit.rigidbody != null)
@@ -96,7 +97,10 @@ public class Gun_Firing : MonoBehaviour
 
             void Shoot2()
             {
-                
+
+                MuzzleFlash2.Play();
+                MuzzleFlash3.Play();
+                Fire2.Play();
                 RaycastHit Hit;
 
                 if (Physics.Raycast(GunLeftTriggerPoint.transform.position, GunLeftTriggerPoint.transform.forward, out Hit, Range))
@@ -104,6 +108,8 @@ public class Gun_Firing : MonoBehaviour
                     Debug.Log(Hit.transform.name);
 
                     TakeDamege target = Hit.transform.GetComponent<TakeDamege>();
+
+               
 
                     if (target != null)
                     {

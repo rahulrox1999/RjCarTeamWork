@@ -3307,7 +3307,17 @@ namespace Photon.Pun
             }
         }
 
-        #endif
+        public static GameObject Instantiate(string name, Vector3 position)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void Destroy(object photonView)
+        {
+            throw new NotImplementedException();
+        }
+
+#endif
 
     }
 }
