@@ -113,7 +113,7 @@ public class Gun_Firing : MonoBehaviour
 
                     if (target != null)
                     {
-                        target.Takedamege(5f);
+                        target.GetComponent<PhotonView>().RPC("Takedamege", RpcTarget.MasterClient, damage);
                     }
 
                     if (Hit.rigidbody != null)
@@ -134,7 +134,7 @@ public class Gun_Firing : MonoBehaviour
 
                     if (target != null)
                     {
-                        target.Takedamege(5f);
+                        target.GetComponent<PhotonView>().RPC("Takedamege", RpcTarget.MasterClient, damage);
                     }
                     if (Hit.rigidbody != null)
                     {
