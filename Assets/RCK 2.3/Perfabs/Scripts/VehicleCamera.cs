@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using System;
+using Photon.Pun;
 public class VehicleCamera : MonoBehaviour
 {
 
+    //Buttons
 
-
+   // public Button Forwardbtnb;
+    PhotonView view;
     public Transform target;
 
     public float smooth = 0.3f;
@@ -89,10 +92,14 @@ public class VehicleCamera : MonoBehaviour
         if (Switch > cameraSwitchView.Count) { Switch = 0; }
     }
 
-
+    [PunRPC]
     public void CarAccelForward(float amount)
     {
-        carScript.accelFwd = amount;
+        if (PhotonNetwork.IsMasterClient)
+        {
+
+            carScript.accelFwd = amount;
+        }
     }
 
     public void CarAccelBack(float amount)
@@ -211,6 +218,9 @@ public class VehicleCamera : MonoBehaviour
 
     void Start()
     {
+      
+
+        view = GetComponent<PhotonView>();
 
         carScript = (VehicleControl)target.GetComponent<VehicleControl>();
 
@@ -225,6 +235,7 @@ public class VehicleCamera : MonoBehaviour
 
     void Update()
     {
+
 
         if (!target) return;
 
@@ -302,7 +313,10 @@ public class VehicleCamera : MonoBehaviour
 
     }
 
-
+    private object CarAccelForward(float v, object amount)
+    {
+        throw new NotImplementedException();
+    }
 
     float AdjustLineOfSight(Vector3 target, Vector3 direction)
     {

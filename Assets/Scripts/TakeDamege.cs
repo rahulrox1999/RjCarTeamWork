@@ -23,7 +23,7 @@ public class TakeDamege : MonoBehaviour
     [PunRPC]
     public void Takedamege(float amount)
     {
-        if (PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.isMine == true && PhotonNetwork.IsConnected == true)
         {
             Health -= amount;
 
